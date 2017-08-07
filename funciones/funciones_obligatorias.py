@@ -1,7 +1,19 @@
-from funciones import *
+import pandas as pd
 
-def leerDataset():
-    pass
+##
+# leerDataset:  toma una lista de nombres de archivos y los convierte en un diccionario
+# creada en:    6/agosto/2017
+# autor:        Coloma Ortiz Alfred
+# version:      1
+##
+def leerDataset(l_archivos):
+    df_final   = pd.DataFrame()
+
+    for archivo in l_archivos:
+        df_arch  = pd.read_csv(archivo,sep=";",encoding="latin-1")
+        df_final = pd.concat([df_final,df_arch],ignore_index=True)
+
+    return df_final.to_dict()
 
 def getTopTenJugadores():
     pass
@@ -18,7 +30,7 @@ def getComparacionJugadores():
 def getHistorialJugador():
     pass
 
-def  getHistorialJugadorRankingAnio():
+def getHistorialJugadorRankingAnio():
     pass
 
 def DrawDistribucionJuegosGanados():
