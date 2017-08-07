@@ -15,7 +15,7 @@ def leerDataset(l_archivos):
 
     return df_final.to_dict()
 
-def getTopTenJugadores():
+def getTopTenJugadores(df,torneo,año):
     pass
 
 def getEstadisticasJugador():

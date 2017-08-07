@@ -12,3 +12,7 @@ def mostrarMenu(l_opciones,titulo):
     print("\n*****",titulo,"*****\n")
     print(pd.Series(l_opciones,index=range(1,len(l_opciones)+1)))
     print("\n*****","*"*len(titulo),"*****\n")
+
+# def presentar(diccionario,titulo):
+#     listado = list(set(diccionario[titulo].values()))
+#     print(pd.Series(listado))
