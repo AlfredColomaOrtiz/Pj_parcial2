@@ -12,22 +12,7 @@ l_subopciones_G = ["Juegos ganados","Eficiencia en años","Ganados por superfici
 
 ## creando diccionario dataset
 print("cargando base de datos...")
-dic_dataset = funo.leerDataset(l_archivos)
-print("...")
-df_dataset  = funo.leerDataset(l_archivos,False)
-print("...")
-print("crando datos extras...")
-
-
-##agrega la columna de años en el dataframe
-l_anios   = []
-isi = 1
-for i,f in df_dataset.iterrows():
-    l_anios.append(f["Date"][-4:])
-    if i == int(46650/2) or i == int(46650/4) or i == int((46650/4)*3) or i == int((46650/4)*3.6):
-        print(int(i*0.002),"%")
-df_dataset["Años"] = np.array(l_anios)
-
+df_dataset = funo.leerDataset(l_archivos)
 
 ## Comiensa el menu principal
 while str_user != str(len(l_pciones)):
@@ -51,16 +36,19 @@ while str_user != str(len(l_pciones)):
                 """)
                 input("[ENTER]")
 
-                df_torneos = menu.presentar(dic_dataset,"Tournament")
-                print(df_torneos)
-                int_torneo = menu.input_int("elija una torneo (indice):\n>> ")
 
-                df_anios = pd.Series(range(2000,2017))
+                df_anios = pd.Series(range(2000, 2017))
                 print(df_anios)
-                int_anio   = menu.input_int("elija una año (indice):\n>> ")
+                int_anio = menu.input_int("\nelija una año (indice):\n>> ")
 
-                if (int_torneo in df_torneos.keys()) and (int_anio in df_anios.keys()):
-                    df_topTen = funo.getTopTenJugadores(df_dataset,df_torneos[int_torneo],df_anios[int_anio])
+                df_torn = menu.presentar(df_dataset[df_dataset["Date"].str.endswith(str(int_anio))],"Tournament")
+                print(df_torn)
+                int_torneo = menu.input_int("\nelija una torneo (indice):\n>> ")
+
+
+                if (int_torneo in df_torn.keys()) and (int_anio in df_anios.keys()):
+
+                    df_topTen = funo.getTopTenJugadores(df_dataset.set_index("Tournament"),df_torn[int_torneo],df_anios[int_anio])
                     print(df_topTen)
 
                 else:

@@ -19,8 +19,8 @@ def mostrarMenu(l_opciones,titulo): # l_opciones: lista con strings de opciones 
 # autor:        Coloma Ortiz Alfred
 # version:      1
 ##
-def presentar(diccionario,titulo): #diccionario: del diccionario que se extraera #titulo: fracmento del diccionario
-    listado = list(set(diccionario[titulo].values()))
+def presentar(df,titulo): #diccionario: del diccionario que se extraera #titulo: fracmento del diccionario
+    listado = list(set(df[titulo].to_dict().values()))
     return pd.Series(listado)
 
 ##
