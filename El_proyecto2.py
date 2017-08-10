@@ -56,7 +56,14 @@ while str_user != str(len(l_pciones)):
 
             # opcion estadisticas
             if str_user == "2":
-                pass
+                print("""
+                                Estadisticas de
+                                un jugador 
+                                especifico
+                                """)
+                input("[ENTER]")
+
+                menu.input_buscar("Ingrese el apellido del jugador:\n>> ")
 
             # opcion eficiencia
             if str_user == "3":

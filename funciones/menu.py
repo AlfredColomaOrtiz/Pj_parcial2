@@ -35,3 +35,6 @@ def input_int(str):
         entrada = input(str)
         if entrada.isdigit():
             return int(entrada)
+
+def input_buscar(str)
+    entrada = "SrColoma"
