@@ -44,7 +44,27 @@ def opcion_1(df_dataset):
 # version:      1
 ##
 def opcion_2(df_dataset):
-    pass
+
+    #filtra el dataframe para pbuscar el jugador
+    df_jugador = menu.buscar_en(df_dataset,"Winner","el apellido del jugador")
+    print(df_jugador["Winner"])
+
+    # si hay mas de una coinsidencia preguntqar pcual se queda
+    if len(df_jugador) > 1:
+        int_selec  = menu.input_int("seleccione un jugador(indice):\n>>")
+
+        if int_selec in df_jugador["Winner"].keys():
+            str_nombre = df_jugador["Winner"][int_selec]
+            print("selecciono: ",str_nombre)
+            funo.getEstadisticasJugador(df_dataset,str_nombre)
+
+        else:
+            print("selecciono un indice que no se encuentra en las lista, vuela a intentarlo")
+            opcion_2(df_dataset)
+    else:
+        #
+        pass
+
 
 def opcion_3(df_dataset):
     pass

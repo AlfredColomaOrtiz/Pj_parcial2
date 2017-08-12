@@ -38,5 +38,19 @@ def input_int(str):
         if entrada.isdigit():
             return int(entrada)
 
-def input_buscar(str):
-    entrada = "SrColoma"
+##
+# Buscar_en:    retorna un dataframe con la busqueda de la palabra en la columna indicada
+# crada en:     12/agosto/2017
+# autor:        Coloma Ortiz Alfred
+# version:      1
+##
+def buscar_en(df,colunm,inp):
+    df_dato = pd.DataFrame()
+
+    while df_dato.empty:
+        print("Ingrese:",inp)
+        jugador = input(">> ")
+        df_dato = df.loc[df[colunm].str.startswith(jugador)]
+
+    df_dato = df_dato.drop_duplicates(colunm)
+    return df_dato
