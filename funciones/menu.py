@@ -14,12 +14,14 @@ def mostrarMenu(l_opciones,titulo): # l_opciones: lista con strings de opciones 
     print("\n*****","*"*len(titulo),"*****\n")
 
 ##
-# presentar:    toma un diccionario y presenta sus opciones sin repeticion
+# presentar:    toma un dataframe y lo presenta sin repeticiones
 # crada en:     7/agosto/2017
 # autor:        Coloma Ortiz Alfred
-# version:      1
+# version:      3
 ##
-def presentar(df,titulo): #diccionario: del diccionario que se extraera #titulo: fracmento del diccionario
+def presentar(df,titulo): #df: del dataframeo que se extraera #titulo: fracmento del diccionario
+    #l1 = df.drop_duplicates(titulo,keep="first")
+    #return l1[titulo]
     listado = list(set(df[titulo].to_dict().values()))
     return pd.Series(listado)
 
@@ -36,5 +38,5 @@ def input_int(str):
         if entrada.isdigit():
             return int(entrada)
 
-def input_buscar(str)
+def input_buscar(str):
     entrada = "SrColoma"

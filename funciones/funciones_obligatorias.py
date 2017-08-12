@@ -1,5 +1,4 @@
 import pandas as pd
-import datetime as dt
 
 ##
 # leerDataset:  toma una lista de nombres de archivos y los convierte en un diccionario
@@ -20,13 +19,22 @@ def leerDataset(l_archivos,): # l_archivos : lista copn nombres de archivos csv
 # getTopTenJugadores:  toma  el toeneo y un año y los filtra del dataframe
 # creada en:    8/agosto/2017
 # autor:        Coloma Ortiz Alfred
-# version:      2
+# version:      4
 ##
 def getTopTenJugadores(df,torneo,anio):
-    df_torneo = df.loc[torneo]
-    df_filtro  = df_torneo[df_torneo["Date"].str.endswith(str(anio))]
+    df_torneo = df.loc[torneo]# extrae por indice el torneo solicitado
+    df_filtro = df_torneo[df_torneo["Date"].str.endswith(str(anio))]# selecciona el año y ordena por wrank
 
-    return df_filtro.head(10).loc[:,["Winner","WRank","Wsets","Date","W1"]]
+    df_conteo = df_filtro["Winner"].value_counts(sort=False)# crea serie con numero de partidos ganados
+
+    df_nodupli = df_filtro.drop_duplicates("Winner",keep="first")#  elimina jugadores repetidos
+    df_nodupli = df_nodupli.set_index("Winner")
+    df_nodupli = pd.concat([df_nodupli,df_conteo],axis=1)
+    df_nodupli = df_nodupli.loc[:,["WRank","Wsets","Date","Winner"]]
+
+    df_final = df_nodupli.rename(columns={"WRank":"Rankin Mundial","Wsets":"Sets Ganados","Date":"Año","Winner":"Partidos Ganados"})
+
+    return df_final.sort_values("Rankin Mundial").head(10)
 
 def getEstadisticasJugador(df,jugador):
     pass
