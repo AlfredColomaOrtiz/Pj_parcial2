@@ -27,6 +27,7 @@ while str_user != str(len(l_opciones)):
         ## comiensa el menu reportes
         while str_user != str(len(l_subopciones_R)):
 
+            # muestra el menu y deja elejir
             menu.mostrarMenu(l_subopciones_R,l_opciones[0])
             str_user = input("elija una opcion:\n>> ")
 
@@ -60,6 +61,7 @@ while str_user != str(len(l_opciones)):
         ## comiensa el menu graficos
         while str_user != str(len(l_subopciones_G)):
 
+            # muestra el menu y deja elejir
             menu.mostrarMenu(l_subopciones_G,l_opciones[1])
             str_user = input("elija una opcion:\n>> ")
 

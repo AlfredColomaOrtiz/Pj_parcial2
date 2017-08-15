@@ -36,8 +36,34 @@ def getTopTenJugadores(df,torneo,anio):
 
     return df_final.sort_values("Rankin Mundial").head(10)
 
+##
+# getEstadisticasJugador:  troma edl dataframe y al jugador y filtra las estadisticas
+# creada en:    13/agosto/2017
+# autor:        Coloma Ortiz Alfred
+# version:      1
+##
 def getEstadisticasJugador(df,jugador):
-    pass
+    df_filtro   = df.loc[jugador]# solo filas con el jugador (filtrado)
+
+    # tipo de torneo #
+    int_Ttorneo = len(df_filtro.drop_duplicates("Series",keep="first")["Series"])
+
+    # ultimo ranking #
+    int_Urankin = int(df_filtro["WRank"].ix[-1])
+
+    # Numero de oponentes #
+    int_oponentes = len(df_filtro.drop_duplicates("Loser",keep="first")["Loser"])
+
+    # partidos ganados #
+    int_partG = len(df_filtro["Loser"])
+
+    # Partidops perdidos #
+    int_partP = len(df[df["Loser"]== jugador]["Loser"])
+
+    # Torneo serie con mayor rankin #
+    int_tsrmr = int(pd.to_numeric(df_filtro["WRank"]).max())
+    df_tsrmr  = df_filtro.loc[df_filtro["WRank"]==int_tsrmr]
+    #str_tsrmr =
 
 def getEficienciaJugadorXsuperficie():
     pass
