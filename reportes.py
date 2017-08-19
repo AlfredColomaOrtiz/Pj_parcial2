@@ -69,7 +69,38 @@ def opcion_2(df_dataset):
         input("[ENTER]")
 
 def opcion_3(df_dataset):
-    pass
+    print("""
+                    Eficiencia
+                    por tipo de 
+                    superficie
+                    """)
+    input("[ENTER]")
+
+    # filtra el dataframe para pbuscar el jugador
+    df_jugador = menu.buscar_en(df_dataset, "Winner", "el apellido del jugador")
+    print(df_jugador["Winner"])
+
+    # si hay mas de una coinsidencia preguntqar pcual se queda
+    int_selec = menu.input_int("seleccione un jugador(indice):\n>>")
+
+
+    # filtra el dataframe para buscar las superficies
+    df_superficie = menu.buscar_en(df_dataset,"Surface","terreno o superficie [ENTER]")
+    print(df_superficie["Surface"])
+
+    int_superficie = menu.input_int("seleccione una superficie(indice):\n>>")
+
+    if int_selec in df_jugador["Winner"].keys() and int_superficie in df_superficie["Surface"].keys():
+
+        str_nombre = df_jugador["Winner"][int_selec]
+        str_sup    = df_superficie["Surface"][int_superficie]
+        print("selecciono: ", str_nombre)
+        print("selecciono: ", str_sup)
+        funo.getEficienciaJugadorXsuperficie(df_dataset, str_nombre,str_sup)
+
+    else:
+        print("selecciono un indice que no se encuentra en las lista, vuela a intentarlo")
+        input("[ENTER]")
 
 def opcion_4(df_dataset):
     pass
