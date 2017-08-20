@@ -3,7 +3,7 @@ import pandas as pd
 ##
 # leerDataset:  toma una lista de nombres de archivos y los convierte en un diccionario
 # creada en:    6/agosto/2017
-# autor:        Coloma Ortiz Alfred
+# autor:        Danny Tenesaca Lopez
 # version:      2
 ##
 def leerDataset(l_archivos,): # l_archivos : lista copn nombres de archivos csv
@@ -40,58 +40,54 @@ def getTopTenJugadores(df,torneo,anio):
 # getEstadisticasJugador:  troma edl dataframe y al jugador y filtra las estadisticas
 # creada en:    13/agosto/2017
 # autor:        Coloma Ortiz Alfred
-# version:      1
+# version:      2
 ##
 def getEstadisticasJugador(df,jugador):
     df_filtro   = df.loc[jugador]# solo filas con el jugador (filtrado)
 
-    # tipo de torneo #
-    int_Ttorneo = len(df_filtro.drop_duplicates("Series",keep="first")["Series"])
+    int_Ttorneo   = len(df_filtro.drop_duplicates("Series",keep="first")["Series"])     # tipo de torneo #
+    int_Urankin   = int(df_filtro["WRank"].ix[-1])                                      # ultimo ranking #
+    int_oponentes = len(df_filtro.drop_duplicates("Loser",keep="first")["Loser"])       # Numero de oponentes #
+    int_partG     = len(df_filtro["Loser"])                                             # partidos ganados #
+    int_partP     = len(df[df["Loser"]== jugador]["Loser"])                             # Partidops perdidos #
 
-    # ultimo ranking #
-    int_Urankin = int(df_filtro["WRank"].ix[-1])
-
-    # Numero de oponentes #
-    int_oponentes = len(df_filtro.drop_duplicates("Loser",keep="first")["Loser"])
-
-    # partidos ganados #
-    int_partG = len(df_filtro["Loser"])
-
-    # Partidops perdidos #
-    int_partP = len(df[df["Loser"]== jugador]["Loser"])
-
-    # Torneo serie con mayor rankin #
+    # Torneo serie con mayor rankin ######
     int_tsrmr   = int(pd.to_numeric(df_filtro["WRank"]).max())
     df_tsrmr    = df_filtro.loc[(df_filtro["WRank"] == str(int_tsrmr)) | (df_filtro["WRank"]==int_tsrmr)]
     str_tsrmr   = df_tsrmr["Tournament"].ix[0]
     str_tsrmr2  = df_tsrmr["Series"].ix[0]
     str_torSerM = str_tsrmr+" - "+str_tsrmr2
+    # Torneo serie con mayor rankin ######
 
-    # Superficie #
-    str_superf = (df_filtro["Surface"].value_counts(sort=False)).argmax()
-
-    # Mayotr oponente #
-    str_oponent = (df_filtro["Loser"].value_counts(sort=False)).argmax()
-
-    # titulos obtenidos #
-    int_titulos = len(df_filtro.loc[df_filtro["Round"] == "The Final"])
+    str_superf = (df_filtro["Surface"].value_counts(sort=False)).argmax()               # Superficie #
+    str_oponent = (df_filtro["Loser"].value_counts(sort=False)).argmax()                # Mayotr oponente #
+    int_titulos = len(df_filtro.loc[df_filtro["Round"] == "The Final"])                 # titulos obtenidos #
 
     ###
-    l_datos  = [int_Ttorneo,int_Urankin,int_oponentes,int_partG,int_partP,str_torSerM,str_superf,str_oponent,int_titulos]
-    l_colums = ["Tipos de torneo","Ultimo ranking btenido","Numero de oponentes","Partidos ganados","Partidos perdidos","Torneo-serie con mayor ranking","Superficie","Mayor opponente","Numero de titulos obtenidos"]
+    dic_datos= {
+        "Tipos de torneo":{0:int_Ttorneo},
+        "Ultimo ranking btenido":{0:int_Urankin},
+        "Numero de oponentes":{0:int_oponentes},
+        "Partidos ganados":{0:int_partG},
+        "Partidos perdidos":{0:int_partP},
+        "Torneo-serie con mayor ranking":{0:str_torSerM},
+        "Superficie":{0:str_superf},
+        "Mayor opponente":{0:str_oponent},
+        "Numero de titulos obtenidos":{0:int_titulos}
+    }
 
-    df_final = pd.DataFrame([l_datos],columns=l_colums)
+    df_final = pd.DataFrame(dic_datos)#,columns=l_colums)
     print(df_final)
 
 
 ##
 # getEficienciaJugadorXsuperficie: muestra la estadiestica de un jugador en relacion a una superficie
 # creada en:    19/agosto/2017
-# autor:        Coloma Ortiz Alfred
+# autor:        Danny Tenesaca Lopez
 # version:      1
 ##
 def getEficienciaJugadorXsuperficie(df,jugador,supperficie):
-    df_filtro = df.loc[df["Surface"] == supperficie]
+    df_filtro  = df.loc[df["Surface"] == supperficie]
     int_pWin   = len(df_filtro.loc[df_filtro["Winner"] == jugador]["Winner"])
     int_pLose  = len(df_filtro.loc[df_filtro["Loser"] == jugador]["Loser"])
 
@@ -100,11 +96,69 @@ def getEficienciaJugadorXsuperficie(df,jugador,supperficie):
     df_final = pd.DataFrame([[jugador,supperficie,int_eficiencia]],columns=["Jugador","Superficie","Eficiencia"])
     print(df_final)
 
-def getComparacionJugadores():
-    pass
+##
+# getComparacionJugadores: recive 2 jugadores y crea una tabla de comparacion entre los 2
+# creada en:    19/agosto/2017
+# autor:        Coloma Ortiz Alfred
+# version:      1
+##
+def getComparacionJugadores(df,jugador1,jugador2):
+    # jugador 1
+    df_filtro1   = df.set_index("Winner").loc[jugador1]                                 # filtra con indices de solo el jugador #
+    int_win1     = len(df.loc[df["Winner"]==jugador1])                                  # Número de victorias #
+    int_lose1    = len(df.loc[df["Loser"] == jugador1])                                 # Número de derrotas #
+    int_titulos1 = len(df_filtro1.loc[df_filtro1["Round"] == "The Final"])              # Títulos obtenidos #
+    int_winE1    = len(df.loc[(df["Winner"]==jugador1) & (df["Loser"] == jugador2)])    # victorias en enfrentamientos #
+    int_loseE1   = len(df.loc[(df["Winner"]==jugador2) & (df["Loser"] == jugador1)])    # derrotas en enfrentamientos #
+    int_torneos1 = len(df_filtro1.drop_duplicates("Tournament",keep="first"))           # torneos en su carrera #
+    int_rankin1  = df_filtro1["WRank"].ix[-1]                                           # Ranking Actual #
 
-def getHistorialJugador():
-    pass
+    # jugador 2
+    df_filtro2   = df.set_index("Winner").loc[jugador2]                                 # filtra con indices de solo el jugador #
+    int_win2     = len(df.loc[df["Winner"] == jugador2])                                # Número de victorias #
+    int_lose2    = len(df.loc[df["Loser"] == jugador2])                                 # Número de derrotas #
+    int_titulos2 = len(df_filtro2.loc[df_filtro2["Round"] == "The Final"])              # Títulos obtenidos #
+    int_winE2    = len(df.loc[(df["Winner"] == jugador2) & (df["Loser"] == jugador1)])  # victorias en enfrentamientos #
+    int_loseE2   = len(df.loc[(df["Winner"] == jugador1) & (df["Loser"] == jugador2)])  # derrotas en enfrentamientos #
+    int_torneos2 = len(df_filtro2.drop_duplicates("Tournament", keep="first"))          # torneos en su carrera #
+    int_rankin2  = df_filtro2["WRank"].ix[-1]                                           # Ranking Actual #
+
+    dic_fin = {
+        jugador1:
+        {
+            "Número de victorias":int_win1,
+            "Número de derrotas":int_lose1,
+            "Títulos obtenidos":int_titulos1,
+            "victorias en enfrentamientos":int_winE1,
+            "derrotas en enfrentamientos":int_loseE1,
+            "torneos en su carrera":int_torneos1,
+            "Ranking Actual":int_rankin1
+        },
+        jugador2:
+        {
+            "Número de victorias": int_win2,
+            "Número de derrotas": int_lose2,
+            "Títulos obtenidos": int_titulos2,
+            "victorias en enfrentamientos": int_winE2,
+            "derrotas en enfrentamientos": int_loseE2,
+            "torneos en su carrera": int_torneos2,
+            "Ranking Actual": int_rankin2
+        }
+    }
+    df_final = pd.DataFrame(dic_fin)
+    print(df_final)
+
+##
+# getHistorialJugador: crea una tabla de los titulos de un jugador por su carrera
+# creada en:    19/agosto/2017
+# autor:        Coloma Ortiz Alfred
+# version:      1
+##
+def getHistorialJugador(df,jugador):
+    df_filtro = df.loc[(df["Winner"] == jugador)&(df["Round"] == "The Final")]
+    df_final  = df_filtro.loc[:,["Date","Tournament","Series","Surface","Loser","WRank"]]
+    print(df_final)
+
 
 def getHistorialJugadorRankingAnio():
     pass

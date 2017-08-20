@@ -29,7 +29,10 @@ def opcion_1(df_dataset):
     # si el torneo y año existen llama al top ten
     if (int_torneo in df_torn.keys()) and (int_anio in df_anios.keys()):
 
-        df_topTen = funo.getTopTenJugadores(df_dataset.set_index("Tournament"), df_torn[int_torneo], df_anios[int_anio])
+        str_torneo = df_torn[int_torneo]
+        str_anio   = df_anios[int_anio]
+
+        df_topTen = funo.getTopTenJugadores(df_dataset.set_index("Tournament"), str_torneo, str_anio)
         print(df_topTen)
         input("[ENTER]")
 
@@ -54,8 +57,6 @@ def opcion_2(df_dataset):
     #filtra el dataframe para pbuscar el jugador
     df_jugador = menu.buscar_en(df_dataset,"Winner","el apellido del jugador")
     print(df_jugador["Winner"])
-
-    # si hay mas de una coinsidencia preguntqar pcual se queda
     int_selec  = menu.input_int("seleccione un jugador(indice):\n>>")
 
     if int_selec in df_jugador["Winner"].keys():
@@ -68,6 +69,12 @@ def opcion_2(df_dataset):
         print("selecciono un indice que no se encuentra en las lista, vuela a intentarlo")
         input("[ENTER]")
 
+##
+# segunda opcion del menu reportes
+# creada en:    19/agosto/2017
+# autor:        Danny Tenesaca Lopez
+# version:      1
+##
 def opcion_3(df_dataset):
     print("""
                     Eficiencia
@@ -79,34 +86,86 @@ def opcion_3(df_dataset):
     # filtra el dataframe para pbuscar el jugador
     df_jugador = menu.buscar_en(df_dataset, "Winner", "el apellido del jugador")
     print(df_jugador["Winner"])
-
-    # si hay mas de una coinsidencia preguntqar pcual se queda
     int_selec = menu.input_int("seleccione un jugador(indice):\n>>")
 
 
     # filtra el dataframe para buscar las superficies
     df_superficie = menu.buscar_en(df_dataset,"Surface","terreno o superficie [ENTER]")
     print(df_superficie["Surface"])
-
     int_superficie = menu.input_int("seleccione una superficie(indice):\n>>")
+
 
     if int_selec in df_jugador["Winner"].keys() and int_superficie in df_superficie["Surface"].keys():
 
         str_nombre = df_jugador["Winner"][int_selec]
         str_sup    = df_superficie["Surface"][int_superficie]
+
         print("selecciono: ", str_nombre)
         print("selecciono: ", str_sup)
+
         funo.getEficienciaJugadorXsuperficie(df_dataset, str_nombre,str_sup)
 
     else:
         print("selecciono un indice que no se encuentra en las lista, vuela a intentarlo")
         input("[ENTER]")
 
+##
+# segunda opcion del menu reportes
+# creada en:    19/agosto/2017
+# autor:        Danny Tenesaca Lopez
+# version:      1
+##
 def opcion_4(df_dataset):
-    pass
+    print("""
+                    Comparacion
+                    entre 
+                    jugadores
+                    """)
+    input("[ENTER]")
+
+    # filtra el dataframe para pbuscar el jugador1
+    df_jugador1 = menu.buscar_en(df_dataset, "Winner", "el apellido del primer jugador")
+    print(df_jugador1["Winner"])
+    int_selec1 = menu.input_int("seleccione un jugador(indice):\n>>")
+
+
+    # filtra el dataframe para pbuscar el jugador2
+    df_jugador2 = menu.buscar_en(df_dataset, "Winner", "el apellido del segundo jugador")
+    print(df_jugador2["Winner"])
+    int_selec2 = menu.input_int("seleccione un jugador(indice):\n>>")
+
+    if int_selec1 in df_jugador1["Winner"].keys() and int_selec2 in df_jugador2["Winner"].keys():
+
+        str_jugador1 = df_jugador1["Winner"][int_selec1]
+        str_jugador2 = df_jugador2["Winner"][int_selec2]
+
+        funo.getComparacionJugadores(df_dataset,str_jugador1,str_jugador2)
+
+    else:
+        print("selecciono un indice que no se encuentra en las lista, vuela a intentarlo")
+        input("[ENTER]")
 
 def opcion_5(df_dataset):
-    pass
+    print("""
+                    historial
+                    de titulos
+                    por jugador
+                    """)
+    input("[ENTER]")
+
+    # filtra el dataframe para pbuscar el jugador
+    df_jugador = menu.buscar_en(df_dataset, "Winner", "el apellido del jugador")
+    print(df_jugador["Winner"])
+    int_selec = menu.input_int("seleccione un jugador(indice):\n>>")
+
+    if int_selec in df_jugador["Winner"].keys():
+        str_jugador = df_jugador["Winner"][int_selec]
+
+        funo.getHistorialJugador(df_dataset,str_jugador)
+
+    else:
+        print("selecciono un indice que no se encuentra en las lista, vuela a intentarlo")
+        input("[ENTER]")
 
 def opcion_6(df_dataset):
     pass
