@@ -192,8 +192,12 @@ def DrawTendenciasEficiencia():
 def DrawPartidosGanadosJugadores():
     pass
 
-def DrawComparativaTopTen():
-    pass
+def DrawComparativaTopTen(df):   #Funcion para crear el grafico
+    grafico=df[["Partidos Ganados"]].plot(kind="Line", title="Comparacion del Top Ten", figsize=(10,10), legend=True, fontsize=10)
+    grafico.set_xlabel("Jugadores")
+    grafico.set_ylabel("Partidos Ganados")
+    # df.plot(x="Rankin Mundial", y="Partidos Ganados", kind="Line")
+    plt.show()
 
 def DrawPartidosGanadosJugadorPorCiudad():
     pass

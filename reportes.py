@@ -8,7 +8,7 @@ import pandas as pd
 # autor:        Coloma Ortiz Alfred
 # version:      1
 ##
-def opcion_1(df_dataset):
+def opcion_1(df_dataset,mandar=False):
     print("""
                     Top Ten de los jugadores
                     por un torneo determminado 
@@ -33,6 +33,9 @@ def opcion_1(df_dataset):
         str_anio   = df_anios[int_anio]
 
         df_topTen = funo.getTopTenJugadores(df_dataset.set_index("Tournament"), str_torneo, str_anio)
+
+        if mandar == True:
+            return df_topTen
         print(df_topTen)
         input("[ENTER]")
 

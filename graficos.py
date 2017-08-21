@@ -1,5 +1,6 @@
 from funciones import funciones_obligatorias as funo
 from funciones import menu
+import reportes
 import pandas as pd
 
 def opcion_1(df_dataset):
@@ -47,7 +48,9 @@ def opcion_3(df_dataset):
     pass
 
 def opcion_4(df_dataset):
-    pass
+    b = reportes.opcion_1(df_dataset,True)  # En el programa principal llamamos a la funcion de crear el top ten
+    print(b)  # Retorna un dataFrame y lo alojamos en una variable
+    funo.DrawComparativaTopTen(b)  # Con el data frame del top t
 
 def opcion_5(df_dataset):
     pass
