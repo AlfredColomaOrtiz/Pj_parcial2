@@ -22,14 +22,14 @@ def opcion_1(df_dataset):
     int_anio = menu.input_int("\nelija una año (indice):\n>> ")
 
     #pide el torneop
-    df_torn = menu.presentar(df_dataset[df_dataset["Date"].str.endswith(str(int_anio))], "Tournament")
-    print(df_torn)
-    int_torneo = menu.input_int("\nelija una torneo (indice):\n>> ")
+    df_torn = menu.buscar_en(df_dataset[df_dataset["Date"].str.endswith(str(int_anio))], "Tournament","Nombre del torneo")
+    print(df_torn["Tournament"])
+    int_torneo = menu.input_int("\nelija un torneo (indice):\n>> ")
 
     # si el torneo y año existen llama al top ten
-    if (int_torneo in df_torn.keys()) and (int_anio in df_anios.keys()):
+    if (int_torneo in df_torn["Tournament"].keys()) and (int_anio in df_anios.keys()):
 
-        str_torneo = df_torn[int_torneo]
+        str_torneo = df_torn["Tournament"][int_torneo]
         str_anio   = df_anios[int_anio]
 
         df_topTen = funo.getTopTenJugadores(df_dataset.set_index("Tournament"), str_torneo, str_anio)
@@ -70,7 +70,7 @@ def opcion_2(df_dataset):
         input("[ENTER]")
 
 ##
-# segunda opcion del menu reportes
+# tercera opcion del menu reportes
 # creada en:    19/agosto/2017
 # autor:        Danny Tenesaca Lopez
 # version:      1
@@ -110,7 +110,7 @@ def opcion_3(df_dataset):
         input("[ENTER]")
 
 ##
-# segunda opcion del menu reportes
+# cuarta opcion del menu reportes
 # creada en:    19/agosto/2017
 # autor:        Danny Tenesaca Lopez
 # version:      1
@@ -167,5 +167,37 @@ def opcion_5(df_dataset):
         print("selecciono un indice que no se encuentra en las lista, vuela a intentarlo")
         input("[ENTER]")
 
+##
+# sexta opcion del menu reportes
+# creada en:    20/agosto/2017
+# autor:        Coloma Ortiz Alfred
+# version:      1
+##
 def opcion_6(df_dataset):
-    pass
+    print("""
+                    historial
+                    de jugador
+                    por mayor rankin 
+                    en un año
+                    """)
+    input("[ENTER]")
+
+    df_jugador = menu.buscar_en(df_dataset, "Winner", "el apellido del jugador")
+    print(df_jugador["Winner"])
+    int_selec = menu.input_int("seleccione un jugador(indice):\n>>")
+
+    df_anios = pd.Series(range(2000, 2017))
+    print(df_anios)
+    int_anio = menu.input_int("\nelija una año (indice):\n>> ")
+
+
+    if (int_selec in df_jugador["Winner"].keys()) and (int_anio in df_anios.keys()):
+
+        str_jugador = df_jugador["Winner"][int_selec]
+        str_anio = df_anios[int_anio]
+
+        funo.getHistorialJugadorRankingAnio(df_dataset,str_jugador,str_anio)
+
+    else:
+        print("selecciono un indice que no se encuentra en las lista, vuela a intentarlo")
+        input("[ENTER]")
