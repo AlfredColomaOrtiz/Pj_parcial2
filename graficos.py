@@ -3,6 +3,12 @@ from funciones import menu
 import reportes
 import pandas as pd
 
+##
+# opcion_1:    opcion 1 de graficos
+# crada en:     21/agosto/2017
+# autor:        Coloma Ortiz Alfred
+# version:      1
+##
 def opcion_1(df_dataset):
     print("""
                     historial
@@ -47,6 +53,12 @@ def opcion_2(df_dataset):
 def opcion_3(df_dataset):
     pass
 
+##
+# opcion_4:    opcion 4 de graficos
+# crada en:     21/agosto/2017
+# autor:        Danny Tenesaca Lopez
+# version:      1
+##
 def opcion_4(df_dataset):
     b = reportes.opcion_1(df_dataset,True)  # En el programa principal llamamos a la funcion de crear el top ten
     print(b)  # Retorna un dataFrame y lo alojamos en una variable
