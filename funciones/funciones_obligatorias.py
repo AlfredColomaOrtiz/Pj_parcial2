@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 ##
 # leerDataset:  toma una lista de nombres de archivos y los convierte en un diccionario
@@ -173,6 +174,8 @@ def getHistorialJugadorRankingAnio(df,jugador,anio):
     df_filtro["Rankin actual"] = l_Urank
     df_final  = df_filtro.loc[:, ["Winner", "Date", "WRank","Rankin actual"]]
     print(df_final.rename(columns={"Winner":"Jugador", "Date":"Año", "WRank":"Ranking","Rankin actual":"Rankin actual"}))
+
+#------------------------------------------ GRAFICOS---------------------------------------------#
 
 ##
 # DrawDistribucionJuegosGanados:  dibuja la distribucion juagoa ganados
