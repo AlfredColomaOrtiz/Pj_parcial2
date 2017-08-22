@@ -192,6 +192,12 @@ def DrawTendenciasEficiencia():
 def DrawPartidosGanadosJugadores():
     pass
 
+##
+# DrawComparativaTopTen:    grafica el top ten
+# crada en:     21/agosto/2017
+# autor:        Danny Tenesaca Lopez
+# version:      1
+##
 def DrawComparativaTopTen(df):   #Funcion para crear el grafico
     grafico=df[["Partidos Ganados"]].plot(kind="Line", title="Comparacion del Top Ten", figsize=(10,10), legend=True, fontsize=10)
     grafico.set_xlabel("Jugadores")
