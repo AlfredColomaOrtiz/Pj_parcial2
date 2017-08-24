@@ -147,7 +147,7 @@ def getComparacionJugadores(df,jugador1,jugador2):
         }
     }
     df_final = pd.DataFrame(dic_fin)
-    print(df_final)
+    return df_final
 
 ##
 # getHistorialJugador: crea una tabla de los titulos de un jugador por su carrera
@@ -179,15 +179,36 @@ def getHistorialJugadorRankingAnio(df,jugador,anio):
 
 ##
 # DrawDistribucionJuegosGanados:  dibuja la distribucion juagoa ganados
-# creada en:    20/agosto/2017
+# creada en:    24/agosto/2017
 # autor:        Coloma Ortiz Alfred
-# version:      1
+# version:      2
 ##
-def DrawDistribucionJuegosGanados(df,set,fecha_ini,fecha_fin):
-    pass
+def DrawDistribucionJuegosGanados(df,set,fecha_ini,fecha_fin,jugador):
+    df_filtro = df.loc[(df["Wsets"] == set) & (df["Winner"] == jugador)]
 
-def DrawTendenciasEficiencia():
-    pass
+    l_data = []
+    for i in range(fecha_ini,fecha_fin+1):
+        data = df_filtro.loc[df_filtro["Date"].str.endswith(str(i))]
+        l_data.append(data)
+
+    df_final = pd.concat(l_data)
+    df_final = df_final.set_index("Date")
+    df_final = df_final.loc[:,["W1","W2","W4","W5","L1","L2","L4","L5"]]
+
+    plot = df_final.plot(kind="Line", title="Distribucion juegos ganados", figsize=(10,10), legend=True, fontsize=10)
+    plot.set_xlabel("jugador: "+jugador)
+    plot.set_ylabel("partido")
+    plt.show()
+
+##
+# DrawTendenciasEficiencia:  eficiencia
+# creada en:    24/agosto/2017
+# autor:        Coloma Ortiz Alfred
+# version:      2
+##
+def DrawTendenciasEficiencia(df):
+    plot = df.plot(kind="Line", title="Eficiencia", figsize=(10,10), legend=True, fontsize=10)
+    plt.show()
 
 def DrawPartidosGanadosJugadores():
     pass
@@ -205,9 +226,35 @@ def DrawComparativaTopTen(df):   #Funcion para crear el grafico
     # df.plot(x="Rankin Mundial", y="Partidos Ganados", kind="Line")
     plt.show()
 
-def DrawPartidosGanadosJugadorPorCiudad():
-    pass
+##
+# DrawPartidosGanadosJugadorPorCiudad:    grafica los partidos ganados por ciudad de cada jugador
+# crada en:     23/agosto/2017
+# autor:        Danny Tenesaca Lopez
+# version:      1
+##
 
-def DrawComparativaPartidosPorJugador():
-    pass
+def DrawPartidosGanadosJugadorPorCiudad(df_dataset2):
+    grafico=df_dataset2[["W1"]].plot(kind="Bar", title="PARTIDOS GANADOS POR CIUDAD", figsize=(10,10), legend=True, fontsize=10)
+    grafico.set_xlabel("CIUDADES")
+    grafico.set_ylabel("PARTIDOS GANADOS")
+    plt.show()
+
+##
+# DrawComparativaPartidosPorJugador:    grafica los partidos ganados vs los partidos perdidos de cada jugador
+# crada en:     23/agosto/2017
+# autor:        Danny Tenesaca Lopez
+# version:      1
+##
+
+def DrawComparativaPartidosPorJugador(df):
+    grafico = df[["W1", "L1"]].plot(kind="Line", title="COMPARACION DE PARTIDOS GANADOS Vs PARTIDOS PERDIDOS",
+                                             figsize=(10, 10), legend=True, fontsize=10)
+    grafico.set_xlabel("AÑOS")
+    grafico.set_ylabel("PARTIDOS JUGADOS")
+
+    plt.show()
+
+
+
+
 

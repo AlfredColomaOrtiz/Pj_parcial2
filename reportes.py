@@ -118,7 +118,7 @@ def opcion_3(df_dataset):
 # autor:        Danny Tenesaca Lopez
 # version:      1
 ##
-def opcion_4(df_dataset):
+def opcion_4(df_dataset,mandar=False):
     print("""
                     Comparacion
                     entre 
@@ -142,12 +142,24 @@ def opcion_4(df_dataset):
         str_jugador1 = df_jugador1["Winner"][int_selec1]
         str_jugador2 = df_jugador2["Winner"][int_selec2]
 
-        funo.getComparacionJugadores(df_dataset,str_jugador1,str_jugador2)
+        comp = funo.getComparacionJugadores(df_dataset,str_jugador1,str_jugador2)
+
+
+        if mandar == True:
+            return comp
+        print(comp)
+        input("[ENTER]")
 
     else:
         print("selecciono un indice que no se encuentra en las lista, vuela a intentarlo")
         input("[ENTER]")
 
+##
+#  opcion 5 del menu reportes
+# creada en:    20/agosto/2017
+# autor:        Coloma Ortiz Alfred
+# version:      1
+##
 def opcion_5(df_dataset):
     print("""
                     historial
@@ -171,7 +183,7 @@ def opcion_5(df_dataset):
         input("[ENTER]")
 
 ##
-# sexta opcion del menu reportes
+# opcion 6 del menu reportes
 # creada en:    20/agosto/2017
 # autor:        Coloma Ortiz Alfred
 # version:      1
